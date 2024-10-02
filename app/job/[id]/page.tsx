@@ -1,4 +1,4 @@
-
+//@ts-nocheck
 'use client'
 import { useEffect, useState } from 'react'
 import { useSession, useUser } from '@clerk/nextjs'
@@ -7,6 +7,9 @@ import { BarLoader } from 'react-spinners'
 import { useParams } from 'next/navigation'
 import { FaMapMarkerAlt, FaCalendarAlt, FaBuilding, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import { useRouter } from 'next/navigation'
+import AppllyNow from '@/components/AppllyNow'
+import ApplicantCard from '@/components/ApplicantCard'
+// import { AppllyNow } from '@/components/AppllyNow'
 interface LoadTasksParams {
   location?: string
   company_id?: string
@@ -165,18 +168,21 @@ export default function Home() {
   
           {/* Footer */}
 
-          {jobs[0].recruiter_id !== user.id && (jobs[0].isOpen ? 
-            <div className="p-6 bg-gray-100 flex justify-center items-center">
-              <button className="px-8 py-3 bg-blue-600 text-white font-bold rounded-full shadow-md hover:bg-teal-700 transition duration-300">
-                Apply Now
-              </button>
-            </div> : 
-            <div className="p-6 bg-gray-100 flex justify-center items-center">
-              <button className="px-8 py-3 hover:cursor-not-allowed text-white font-bold rounded-full shadow-md bg-teal-700 transition duration-300">
-                Can't Apply Now
-              </button>
+          {jobs[0].recruiter_id !== user.id ?
+          <div className='flex justify-center items-center mb-32'>
+            <AppllyNow 
+                job={jobs[0]}              
+                applied={jobs[0]?.applications?.find((ap)=>ap.candidate_id===user.id)}
+                user={user}
+                fetchJob={loadTasks}
+                />
+          </div> : <div>
+            {jobs[0]?.applications.map((applicant)=>
+            <ApplicantCard
+             key={applicant.id} 
+             applicant={applicant}/>)}
             </div>
-          )}
+          }
 
         </div>
       </div>

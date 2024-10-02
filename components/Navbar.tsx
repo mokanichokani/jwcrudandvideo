@@ -35,9 +35,11 @@ const Navbar = () => {
       </SignedOut>
       <SignedIn>
         {user?.unsafeMetadata?.role==='recruiter' &&
-                  <button className='bg-[#ffd105] p-3 flex items-center gap-2 hover:bg-yellow-500 px-4 rounded-md'>
+        <Link href="/k">
+                            <button className='bg-[#ffd105] p-3 flex items-center gap-2 hover:bg-yellow-500 px-4 rounded-md'>
                   <MdPostAdd/>
-                  Post a job</button>
+                  Job we meet</button>
+        </Link>
         }
           <UserButton
               appearance={{
